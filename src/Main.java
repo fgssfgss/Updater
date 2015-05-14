@@ -1,4 +1,8 @@
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import static java.sql.DriverManager.getConnection;
 import java.sql.ResultSet;
@@ -16,19 +20,46 @@ import java.util.regex.Pattern;
  */
 public class Main {
 
-    public String url = "jdbc:mysql://localhost:3306/test";
+    public String url = "jdbc:mysql://";
+    public String table = "";
     public String user = "root";
     public String password = "toor";
     public String column1 = "text1";
     public String column2 = "text2";
-    public String filler = "Lorem ipsum dolor sit amet, consectetur adipisicing elit";
+    public String filler = "";
+    public String fillerfilename = "";
     public String regexp_phone = "\\+?(\\d{12})";
 
     public static void main(String[] args) {
-        new Main().run();
+        new Main().run(args);
     }
 
-    public void run() {
+    public void run(String[] args) {
+        if(args.length < 6)
+        {
+            System.out.println("Usage: java -jar utility.jar host:port db_name table username password column1 column2 filler.txt");
+            System.exit(1);
+        }
+        
+        url = url.concat(args[0] + "/" + args[1]); // arg 0 for host:port, arg 1 for db
+        table = args[2]; // arg 2 for table
+        user = args[3]; //  arg 3 for username
+        password = args[4]; // arg 4 for password
+        column1 = args[5]; // arg 5 for column with text
+        column2 = args[6]; // arg 6 for column with phone number
+        fillerfilename = args[7]; // arg 7 for filler.txt
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(fillerfilename));
+            String tmp;
+            while((tmp = in.readLine()) != null){
+                filler = filler.concat(tmp);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         try {
             Connection con;
             Statement st;
@@ -37,7 +68,7 @@ public class Main {
             con = getConnection(url, user, password);
 
             st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            rs = st.executeQuery("SELECT * FROM tab");
+            rs = st.executeQuery("SELECT * FROM " + table);
 
             while (rs.next()) {
                 String s1 = rs.getString(column1);
