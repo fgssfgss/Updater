@@ -43,12 +43,12 @@ public class Main {
                 String s1 = rs.getString(column1);
                 String s2 = rs.getString(column2);
 
-                //s1 = fillWithText(s1);
-                //s2 = obfuscateNumber(s2);
+                s1 = fillWithText(s1);
+                s2 = obfuscateNumber(s2);
 
-                //rs.updateString(column1, s1);
-                //rs.updateString(column2, s2);
-                //rs.updateRow();
+                rs.updateString(column1, s1);
+                rs.updateString(column2, s2);
+                rs.updateRow();
             }
 
         } catch (SQLException ex) {
