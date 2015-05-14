@@ -1,5 +1,5 @@
 ## Updater
-Simple utility for obfuscation in specific columns of MySQL.
+Simple utility for obfuscation data in specific columns of MySQL.
 ## Usage:
 java -jar utility.jar host:port db_name table username password column1 column2 filler.txt
 - host:port - hostname and port
