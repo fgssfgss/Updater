@@ -11,14 +11,14 @@
      <table>tab</table>
      <name>text1</name>
      <type>text</type>
-     <condition>fuck = 123</condition>
+     <condition>id = 1</condition>
    </column>
    
    <column>
      <table>tab</table>
      <name>text2</name>
      <type>phone</type>
-     <condition>fuck = 123</condition>
+     <condition>id = 2</condition>
    </column>
    
 </config>
